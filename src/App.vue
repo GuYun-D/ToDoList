@@ -1,7 +1,8 @@
 <template>
   <div class="todo-container">
     <div class="todo-wrap">
-      <Header></Header>
+      <!-- <Header :addToDo="addToDo"></Header> -->
+      <Header @addToDo="addToDo"></Header>
       <List :todos="todos"></List>
       <Footer></Footer>
     </div>
@@ -39,6 +40,11 @@ export default {
       ]
     }
   },
+  methods: {
+    addToDo(todo){
+      this.todos.unshift(todo)
+    }
+  }
 };
 </script>
 
