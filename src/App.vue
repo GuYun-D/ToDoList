@@ -2,16 +2,16 @@
   <div class="todo-container">
     <div class="todo-wrap">
       <Header></Header>
-      <List></List>
+      <List :todos="todos"></List>
       <Footer></Footer>
     </div>
   </div>
 </template>
 
 <script>
-import Header from './components/Header'
-import Footer from './components/Footer'
-import List from './components/List'
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import List from "./components/List";
 
 export default {
   name: "app",
@@ -19,6 +19,25 @@ export default {
     Header,
     Footer,
     List,
+  },
+  data() {
+    return {
+      todos: [
+        {
+          id: 1,
+          content: '学习javascript',
+          isDone: false
+        }, {
+          id: 2,
+          content: '学习java',
+          isDone: true
+        }, {
+          id: 3,
+          content: '学习Typescript',
+          isDone: false
+        },
+      ]
+    }
   },
 };
 </script>
