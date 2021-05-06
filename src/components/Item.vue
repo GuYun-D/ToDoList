@@ -1,12 +1,12 @@
 <template>
-  <li>
+  <li :class="{lilight: isShow}" @mouseenter="isShow = true" @mouseleave="isShow = false">
     <label>
       <input type="checkbox" :checked="todo.isDone" />
       <!-- 一组数据需要写value，单个不用写value，那么v-model操作的属性就是checked -->
       <!-- <input type="checkbox" v-model="isChecked" /> -->
       <span>{{ todo.content }}</span>
     </label>
-    <button class="btn btn-danger" style="display: none">删除</button>
+    <button class="btn btn-danger" v-show="isShow">删除</button>
   </li>
 </template>
 
@@ -22,7 +22,9 @@ export default {
     return {
       // todo是组件之间的通信传过来的，所以在执行的时候，可能数据都还没有传过来，data中不要出现this
       // isChecked: this.todo.isDone
-      isChecked: ''
+      isChecked: '',
+
+      isShow: false
     }
   },
 
@@ -63,7 +65,6 @@ li label li input {
 
 li button {
   float: right;
-  display: none;
   margin-top: 3px;
 }
 
@@ -73,5 +74,9 @@ li:before {
 
 li:last-child {
   border-bottom: none;
+}
+
+.lilight{
+  background-color: hotpink;
 }
 </style>
