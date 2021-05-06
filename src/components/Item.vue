@@ -1,12 +1,12 @@
 <template>
   <li :class="{lilight: isShow}" @mouseenter="isShow = true" @mouseleave="isShow = false">
     <label>
-      <input type="checkbox" :checked="todo.isDone" />
+      <input type="checkbox" :checked="todo.isDone" @click="updataO" />
       <!-- 一组数据需要写value，单个不用写value，那么v-model操作的属性就是checked -->
       <!-- <input type="checkbox" v-model="isChecked" /> -->
       <span>{{ todo.content }}</span>
     </label>
-    <button class="btn btn-danger" v-show="isShow">删除</button>
+    <button class="btn btn-danger" v-show="isShow" @click="deleteO">删除</button>
   </li>
 </template>
 
@@ -16,6 +16,13 @@ export default {
   props: {
     // 写成对象更严谨，可以对传递过来的属性值类型进行判定
     todo: Object,
+    // 修改的下标
+    index: {
+      type: Number,
+      require: true
+    },
+    updataOne: Function,
+    deleteOne: Function
   },
 
   data(){
@@ -27,6 +34,16 @@ export default {
       isShow: false
     }
   },
+
+  methods: {
+    updataO(){
+      this.updataOne(this.index)
+    },
+
+    deleteO(){
+      this.deleteOne(this.index)
+    }
+  }
 
   // computed: {
   //   isChecked: {
