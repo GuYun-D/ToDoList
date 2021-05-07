@@ -3,7 +3,9 @@
     <div class="todo-wrap">
       <!-- <Header :addToDo="addToDo"></Header> -->
       <Header @addToDo="addToDo"></Header>
-      <List :todos="todos" :deleteOne="deleteOne" :updataOne="updataOne"></List>
+      <!-- <List :todos="todos" :deleteOne="deleteOne" :updataOne="updataOne"></List> -->
+      <!-- 全局事件总线 -->
+      <List :todos="todos" :updataOne="updataOne"></List>
       <Footer
         :todos="todos"
         :deleteAll="deleteAll"
@@ -84,6 +86,11 @@ export default {
         localStorage.setItem('TODOS_KEY', JSON.stringify(newValue))
       }
     }
+  },
+
+  mounted(){
+    // 给总线绑定事件
+    this.$bus.$on('deleteOne', this.deleteOne)
   }
 };
 </script>

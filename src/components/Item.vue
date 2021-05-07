@@ -22,7 +22,7 @@ export default {
       require: true
     },
     updataOne: Function,
-    deleteOne: Function
+    // deleteOne: Function
   },
 
   data(){
@@ -41,7 +41,11 @@ export default {
     },
 
     deleteO(){
-      this.deleteOne(this.index)
+      // props
+      // this.deleteOne(this.index)
+
+      // 全局事件总线
+      this.$bus.$emit('deleteOne', this.inde) 
     }
   }
 
