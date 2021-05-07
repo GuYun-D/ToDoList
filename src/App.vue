@@ -5,7 +5,9 @@
       <Header @addToDo="addToDo"></Header>
       <!-- <List :todos="todos" :deleteOne="deleteOne" :updataOne="updataOne"></List> -->
       <!-- 全局事件总线 -->
-      <List :todos="todos" :updataOne="updataOne"></List>
+      <!-- <List :todos="todos" :updataOne="updataOne"></List> -->
+      <!-- 发布订阅 -->
+      <List :todos="todos"></List>
       <Footer
         :todos="todos"
         :deleteAll="deleteAll"
@@ -19,6 +21,7 @@
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import List from "./components/List";
+import PubSub from "pubsub-js";
 
 export default {
   name: "app",
@@ -46,7 +49,7 @@ export default {
       //     isDone: false,
       //   },
       // ],
-      todos: JSON.parse(localStorage.getItem('TODOS_KEY')) || []
+      todos: JSON.parse(localStorage.getItem("TODOS_KEY")) || [],
     };
   },
   methods: {
@@ -54,7 +57,10 @@ export default {
       this.todos.unshift(todo);
     },
 
-    updataOne(index) {
+    /**
+     * msg是pubsub传递过来的消息名称，即使不用也要占位
+     */
+    updataOne(msg, index) {
       this.todos[index].isDone = !this.todos[index].isDone;
     },
 
@@ -69,29 +75,32 @@ export default {
 
     deleteAll() {
       // 过滤出没打勾的过滤出来
-      this.todos = this.todos.filter(item => !item.isDone);
+      this.todos = this.todos.filter((item) => !item.isDone);
     },
   },
 
   watch: {
     todos: {
-      deep: true,  // 深度监视
+      deep: true, // 深度监视
       /**
        * 一般监视的是数组的数据，但是数组内部的对象数据的变化监视不到
        * 深度监视不仅可以监视到数组数据，同样可监视到数组内部对象的数据
        */
-      handler(newValue, oldValue){
+      handler(newValue, oldValue) {
         console.log("存储了");
         // 只要todos发生变化，就将变化的数据存储到本地
-        localStorage.setItem('TODOS_KEY', JSON.stringify(newValue))
-      }
-    }
+        localStorage.setItem("TODOS_KEY", JSON.stringify(newValue));
+      },
+    },
   },
 
-  mounted(){
+  mounted() {
     // 给总线绑定事件
-    this.$bus.$on('deleteOne', this.deleteOne)
-  }
+    this.$bus.$on("deleteOne", this.deleteOne);
+
+    // 消息订阅
+    PubSub.subscribe("heihei", this.updataOne);
+  },
 };
 </script>
 

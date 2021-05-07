@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import PubSub from 'pubsub-js'
+
 export default {
   // props第二种写法
   props: {
@@ -21,7 +23,7 @@ export default {
       type: Number,
       require: true
     },
-    updataOne: Function,
+    // updataOne: Function,
     // deleteOne: Function
   },
 
@@ -37,7 +39,11 @@ export default {
 
   methods: {
     updataO(){
-      this.updataOne(this.index)
+      // props
+      // this.updataOne(this.index)
+
+      // PubSub
+      PubSub.publish('heihei', this.index)
     },
 
     deleteO(){
